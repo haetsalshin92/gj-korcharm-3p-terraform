@@ -52,7 +52,7 @@ resource "aws_security_group" "sg_spring" {
 
 # DocumentDB 보안 그룹 (수동 연결 시)
 resource "aws_security_group" "sg_docdb" {
-  name        = "sg-docdb"
+  name        = "docdb-sg"
   description = "Allow MongoDB from SpringBoot"
   vpc_id      = aws_vpc.main.id
 
