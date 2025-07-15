@@ -78,27 +78,3 @@ resource "aws_lb_listener" "spring_listener" {
     target_group_arn = aws_lb_target_group.spring_tg.arn
   }
 }
-
-# Auto Scaling Group
-resource "aws_autoscaling_group" "spring_asg" {
-  name                      = "asg-spring"
-  desired_capacity          = 2
-  min_size                  = 2
-  max_size                  = 2
-  vpc_zone_identifier       = [
-    aws_subnet.public_1a_spring.id,
-    aws_subnet.public_1c_spring.id
-  ]
-  launch_template {
-    id      = aws_launch_template.spring_lt.id
-    version = "$Latest"
-  }
-  target_group_arns = [aws_lb_target_group.spring_tg.arn]
-  health_check_type = "ELB"
-
-  tag {
-    key                 = "Name"
-    value               = "springboot-instance"
-    propagate_at_launch = true
-  }
-}

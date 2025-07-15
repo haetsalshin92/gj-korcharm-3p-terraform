@@ -86,26 +86,3 @@ resource "aws_lb_listener" "react_listener" {
   }
 }
 
-# Auto Scaling Group
-resource "aws_autoscaling_group" "react_asg" {
-  name                      = "asg-react"
-  desired_capacity          = 2
-  min_size                  = 2
-  max_size                  = 2
-  vpc_zone_identifier       = [
-    aws_subnet.public_1a_react.id,
-    aws_subnet.public_1c_react.id,
-  ]
-  launch_template {
-    id      = aws_launch_template.react_lt.id
-    version = "$Latest"
-  }
-  target_group_arns = [aws_lb_target_group.react_tg.arn]
-  health_check_type = "ELB"
-
-  tag {
-    key                 = "Name"
-    value               = "react-instance"
-    propagate_at_launch = true
-  }
-}
