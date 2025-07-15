@@ -16,7 +16,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: aibotTerraform
 
       - name: Terraform Apply
         run: |
@@ -27,7 +26,6 @@ jobs:
             -var="mongodb_password=${{ secrets.MONGODB_PASSWORD }}" \
             -var="mongodb_host=${{ secrets.MONGODB_HOST }}" \
             -var="mongodb_database=${{ secrets.MONGODB_DATABASE }}"
-        working-directory: aibotTerraform
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
