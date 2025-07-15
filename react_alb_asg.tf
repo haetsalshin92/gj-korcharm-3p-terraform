@@ -86,3 +86,55 @@ resource "aws_lb_listener" "react_listener" {
   }
 }
 
+resource "aws_instance" "react_2a" {
+  ami                         = "ami-03ff09c4b716e6425"
+  instance_type               = "t2.micro"
+  key_name                    = "gj-test2.pem"
+  subnet_id                   = aws_subnet.public_1a_react.id
+  vpc_security_group_ids      = [aws_security_group.sg_react.id]
+  associate_public_ip_address = true
+
+  user_data = base64encode(<<EOF
+#!/bin/bash
+yum update -y
+yum install -y docker
+systemctl start docker
+usermod -aG docker ec2-user
+
+echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
+
+docker pull ghcr.io/haetsalshin92/react-app:latest
+docker run -d -p 80:80 ghcr.io/haetsalshin92/react-app:latest
+EOF
+  )
+
+  tags = {
+    Name = "react-instance-2a"
+  }
+}
+
+resource "aws_instance" "react_2c" {
+  ami                         = "ami-03ff09c4b716e6425"
+  instance_type               = "t2.micro"
+  key_name                    = "gj-test2.pem"
+  subnet_id                   = aws_subnet.public_1c_react.id
+  vpc_security_group_ids      = [aws_security_group.sg_react.id]
+  associate_public_ip_address = true
+
+  user_data = base64encode(<<EOF
+#!/bin/bash
+yum update -y
+yum install -y docker
+systemctl start docker
+usermod -aG docker ec2-user
+
+echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
+
+docker pull ghcr.io/haetsalshin92/react-app:latest
+docker run -d -p 80:80 ghcr.io/haetsalshin92/react-app:latest
+EOF
+  )
+  tags = {
+    Name = "react-instance-2c"
+  }
+}

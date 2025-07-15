@@ -78,3 +78,57 @@ resource "aws_lb_listener" "spring_listener" {
     target_group_arn = aws_lb_target_group.spring_tg.arn
   }
 }
+
+
+resource "aws_instance" "spring_2a" {
+  ami                         = "ami-03ff09c4b716e6425"
+  instance_type               = "t2.micro"
+  key_name                    = "gj-test2.pem"
+  subnet_id                   = aws_subnet.public_1a_spring.id
+  vpc_security_group_ids      = [aws_security_group.sg_spring.id]
+  associate_public_ip_address = true
+
+  user_data = base64encode(<<EOF
+#!/bin/bash
+yum update -y
+yum install -y docker
+systemctl start docker
+usermod -aG docker ec2-user
+
+echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
+
+docker pull ghcr.io/haetsalshin92/springboot-app:latest
+docker run -d -p 8080:8080 -e DOCDB_URI="${var.docdb_uri}" ghcr.io/haetsalshin92/springboot-app:latest
+EOF
+  )
+
+  tags = {
+    Name = "springboot-instance-2a"
+  }
+}
+
+resource "aws_instance" "spring_2c" {
+  ami                         = "ami-03ff09c4b716e6425"
+  instance_type               = "t2.micro"
+  key_name                    = "gj-test2.pem"
+  subnet_id                   = aws_subnet.public_1c_spring.id
+  vpc_security_group_ids      = [aws_security_group.sg_spring.id]
+  associate_public_ip_address = true
+
+    user_data = base64encode(<<EOF
+#!/bin/bash
+yum update -y
+yum install -y docker
+systemctl start docker
+usermod -aG docker ec2-user
+
+echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
+
+docker pull ghcr.io/haetsalshin92/springboot-app:latest
+docker run -d -p 8080:8080 -e DOCDB_URI="${var.docdb_uri}" ghcr.io/haetsalshin92/springboot-app:latest
+EOF
+  )
+  tags = {
+    Name = "springboot-instance-2c"
+  }
+}
