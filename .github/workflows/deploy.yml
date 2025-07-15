@@ -17,6 +17,17 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="gh_username=${{ secrets.GH_USERNAME }}" \
+            -var="gh_token=${{ secrets.GH_TOKEN }}" \
+            -var="mongodb_username=${{ secrets.MONGODB_USERNAME }}" \
+            -var="mongodb_password=${{ secrets.MONGODB_PASSWORD }}" \
+            -var="mongodb_host=${{ secrets.MONGODB_HOST }}" \
+            -var="mongodb_database=${{ secrets.MONGODB_DATABASE }}" \
+            -var="docdb_uri=${{ secrets.DOCDB_URI }}"
+
       - name: Terraform Apply
         run: |
           terraform apply -auto-approve \
