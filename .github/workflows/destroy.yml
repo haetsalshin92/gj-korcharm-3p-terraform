@@ -27,6 +27,7 @@ jobs:
           -var="mongodb_password=${{ secrets.MONGODB_PASSWORD }}" \
           -var="mongodb_host=${{ secrets.MONGODB_HOST }}" \
           -var="mongodb_database=${{ secrets.MONGODB_DATABASE }}"
+          -var="docdb_uri=${{ secrets.DOCDB_URI }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
