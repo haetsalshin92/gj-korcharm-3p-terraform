@@ -15,12 +15,12 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
+        working-directory: aibotTerraform
         run: terraform init
 
       - name: Terraform Destroy
-        run: |
-          cd aibotTerraform
-          terraform destroy -auto-approve \
+        working-directory: aibotTerraform
+        run: terraform apply -auto-approve \
           -var="gh_username=${{ secrets.GH_USERNAME }}" \
           -var="gh_token=${{ secrets.GH_TOKEN }}" \
           -var="mongodb_username=${{ secrets.MONGODB_USERNAME }}" \
