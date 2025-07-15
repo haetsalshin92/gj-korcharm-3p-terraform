@@ -1,9 +1,7 @@
 name: Terraform Deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # 수동 실행
 
 jobs:
   terraform:
@@ -20,7 +18,15 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var="gh_username=${{ secrets.GH_USERNAME }}" -var="gh_token=${{ secrets.GH_TOKEN }}" -var="mongodb_username=${{ secrets.MONGODB_USERNAME }}" -var="mongodb_password=${{ secrets.MONGODB_PASSWORD }}" -var="mongodb_host=${{ secrets.MONGODB_HOST }}" -var="mongodb_database=${{ secrets.MONGODB_DATABASE }}"
+        run: |
+          cd aibotTerraform
+          terraform apply -auto-approve \
+            -var="gh_username=${{ secrets.GH_USERNAME }}" \
+            -var="gh_token=${{ secrets.GH_TOKEN }}" \
+            -var="mongodb_username=${{ secrets.MONGODB_USERNAME }}" \
+            -var="mongodb_password=${{ secrets.MONGODB_PASSWORD }}" \
+            -var="mongodb_host=${{ secrets.MONGODB_HOST }}" \
+            -var="mongodb_database=${{ secrets.MONGODB_DATABASE }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
