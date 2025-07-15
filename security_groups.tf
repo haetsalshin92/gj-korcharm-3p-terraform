@@ -1,6 +1,6 @@
 # React EC2 보안 그룹
 resource "aws_security_group" "sg_react" {
-  name        = "sg-react"
+  name        = "react-sg"
   description = "Allow HTTP for React"
   vpc_id      = aws_vpc.main.id
 
@@ -26,7 +26,7 @@ resource "aws_security_group" "sg_react" {
 
 # SpringBoot EC2 보안 그룹
 resource "aws_security_group" "sg_spring" {
-  name        = "sg-spring"
+  name        = "spring-sg"
   description = "Allow HTTP for SpringBoot"
   vpc_id      = aws_vpc.main.id
 
