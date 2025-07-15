@@ -17,7 +17,7 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  default = "gj-test2.pem"
+  default = "gj-test2"
 }
 
 variable "docdb_uri" {

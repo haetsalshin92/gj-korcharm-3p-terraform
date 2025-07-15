@@ -3,7 +3,7 @@ resource "aws_launch_template" "react_lt" {
   name_prefix   = "lt-react-"
   image_id      = "ami-03ff09c4b716e6425"
   instance_type = "t2.micro"
-  key_name      = "gj-test2.pem"
+  key_name      = "gj-test2"
 
   network_interfaces {
     associate_public_ip_address = true
@@ -89,7 +89,7 @@ resource "aws_lb_listener" "react_listener" {
 resource "aws_instance" "react_2a" {
   ami                         = "ami-03ff09c4b716e6425"
   instance_type               = "t2.micro"
-  key_name                    = "gj-test2.pem"
+  key_name                    = "gj-test2"
   subnet_id                   = aws_subnet.public_1a_react.id
   vpc_security_group_ids      = [aws_security_group.sg_react.id]
   associate_public_ip_address = true
@@ -116,7 +116,7 @@ EOF
 resource "aws_instance" "react_2c" {
   ami                         = "ami-03ff09c4b716e6425"
   instance_type               = "t2.micro"
-  key_name                    = "gj-test2.pem"
+  key_name                    = "gj-test2"
   subnet_id                   = aws_subnet.public_1c_react.id
   vpc_security_group_ids      = [aws_security_group.sg_react.id]
   associate_public_ip_address = true
