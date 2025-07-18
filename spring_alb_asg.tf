@@ -41,7 +41,7 @@ resource "aws_lb_target_group" "spring_tg" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path                = "/actuator/health"  # Spring Boot에 맞게 조정 가능
+    path                = "/webhooks"  # Spring Boot에 맞게 조정 가능
     protocol            = "HTTP"
     matcher             = "200-399"
     interval            = 30
@@ -98,7 +98,11 @@ usermod -aG docker ec2-user
 echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
 
 docker pull ghcr.io/haetsalshin92/springboot-app:latest
-docker run -d -p 8080:8080 -e DOCDB_URI="${var.docdb_uri}" ghcr.io/haetsalshin92/springboot-app:latest
+docker run -d \
+  -v /home/ec2-user/app/application.properties:/app/application.properties \
+  -p 8080:8080 \
+  ghcr.io/haetsalshin92/springboot-app \
+  java -jar app.jar --spring.config.location=file:/app/application.properties
 EOF
   )
 
@@ -125,7 +129,11 @@ usermod -aG docker ec2-user
 echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
 
 docker pull ghcr.io/haetsalshin92/springboot-app:latest
-docker run -d -p 8080:8080 -e DOCDB_URI="${var.docdb_uri}" ghcr.io/haetsalshin92/springboot-app:latest
+docker run -d \
+  -v /home/ec2-user/app/application.properties:/app/application.properties \
+  -p 8080:8080 \
+  ghcr.io/haetsalshin92/springboot-app \
+  java -jar app.jar --spring.config.location=file:/app/application.properties
 EOF
   )
   tags = {

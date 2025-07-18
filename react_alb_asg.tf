@@ -22,11 +22,6 @@ resource "aws_launch_template" "react_lt" {
     # Pull and run container
     docker pull ghcr.io/haetsalshin92/react-app:latest
     docker run -d -p 8080:8080 \
-        -e SPRING_DATA_MONGODB_HOST="${var.mongodb_host}" \
-        -e SPRING_DATA_MONGODB_PORT="${var.mongodb_port}" \
-        -e SPRING_DATA_MONGODB_DATABASE="${var.mongodb_database}" \
-        -e SPRING_DATA_MONGODB_USERNAME="${var.mongodb_username}" \
-        -e SPRING_DATA_MONGODB_PASSWORD="${var.mongodb_password}" \
         ghcr.io/haetsalshin92/springboot-app:latest
     EOF
     )
