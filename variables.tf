@@ -19,16 +19,3 @@ variable "instance_type" {
 variable "key_name" {
   default = "gj-test2"
 }
-
-variable "docdb_uri" {
-  type        = string
-  description = "DocumentDB connection string"
-}
-
-variable "mongodb_username" {}
-variable "mongodb_password" {}
-variable "mongodb_host" {}
-variable "mongodb_port" {
-  default = 27017
-}
-variable "mongodb_database" {}

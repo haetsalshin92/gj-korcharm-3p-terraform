@@ -20,7 +20,11 @@ usermod -aG docker ec2-user
 echo "${var.gh_token}" | docker login ghcr.io -u ${var.gh_username} --password-stdin
 
 docker pull ghcr.io/haetsalshin92/springboot-app:latest
-docker run -d -p 8080:8080 -e DOCDB_URI="${var.docdb_uri}" ghcr.io/haetsalshin92/springboot-app:latest
+docker run -d \
+  -v /home/ec2-user/app/application.properties:/app/application.properties \
+  -p 8080:8080 \
+  ghcr.io/haetsalshin92/springboot-app \
+  java -jar app.jar --spring.config.location=file:/app/application.properties
 EOF
 )
 

@@ -9,7 +9,7 @@
 - `security_groups.tf`: React, Spring Boot, DocumentDB용 보안 그룹 정의
 - `react_alb_asg.tf`: React 서비스용 ALB, Target Group, EC2 인스턴스 및 Launch Template 정의
 - `spring_alb_asg.tf`: Spring Boot 서비스용 ALB, Target Group, EC2 인스턴스 및 Launch Template 정의
-- `variables.tf`: 변수 정의 (GitHub 인증, MongoDB/DocumentDB 정보 등)
+- `variables.tf`: 변수 정의 (GitHub 인증 등)
 - `outputs.tf`: 주요 리소스의 출력값 정의 (ALB DNS, 서브넷 ID, 보안 그룹 ID 등)
 
 ## 배포 방법
@@ -18,8 +18,6 @@
 - GitHub Actions에서 다음 시크릿을 등록해야 합니다:
   - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
   - `GH_USERNAME`, `GH_TOKEN`
-  - `MONGODB_USERNAME`, `MONGODB_PASSWORD`, `MONGODB_HOST`, `MONGODB_DATABASE`
-  - `DOCDB_URI`
 
 ### 2. GitHub Actions로 배포/삭제
 - 수동 실행(workflow_dispatch)으로 배포/삭제 가능
@@ -32,17 +30,12 @@ terraform init
 terraform apply \
   -var="gh_username=..." \
   -var="gh_token=..." \
-  -var="mongodb_username=..." \
-  -var="mongodb_password=..." \
-  -var="mongodb_host=..." \
-  -var="mongodb_database=..." \
-  -var="docdb_uri=..."
 ```
 
 ## 주요 리소스 설명
 
 - **VPC 및 서브넷**: React/Spring 각각 2개씩 퍼블릭 서브넷 구성
-- **보안 그룹**: 서비스별로 HTTP, MongoDB 포트 등 인바운드/아웃바운드 규칙 설정
+- **보안 그룹**: 서비스별로 HTTP 등 인바운드/아웃바운드 규칙 설정
 - **ALB/Target Group**: React(80), Spring Boot(8080)용 ALB 및 Target Group
 - **EC2 인스턴스**: 각 서비스별로 2개 인스턴스(2a, 2c AZ) 배포, Docker로 컨테이너 실행
 - **Launch Template**: EC2 자동화 배포를 위한 템플릿
