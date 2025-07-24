@@ -66,6 +66,17 @@ resource "aws_subnet" "public_1c_spring" {
   }
 }
 
+# MongoDB Subnet 1 (2a)
+resource "aws_subnet" "public_1a_mongo" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.5.0/24"
+  availability_zone       = "ap-northeast-2a"
+  map_public_ip_on_launch = false
+  tags = {
+    Name = "public-subnet-1a-mongo"
+  }
+}
+
 # ───────────── Route Table ─────────────
 
 resource "aws_route_table" "public_rt" {
