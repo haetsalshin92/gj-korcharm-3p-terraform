@@ -20,7 +20,7 @@ resource "aws_security_group" "sg_react" {
   }
 
   tags = {
-    Name = "sg-react"
+    Name = "react-sg"
   }
 }
 
@@ -46,13 +46,13 @@ resource "aws_security_group" "sg_spring" {
   }
 
   tags = {
-    Name = "sg-spring"
+    Name = "spring-sg"
   }
 }
 
-# DocumentDB 보안 그룹 (수동 연결 시)
-resource "aws_security_group" "sg_docdb" {
-  name        = "docdb-sg"
+# MongoDB
+resource "aws_security_group" "sg_mongodb" {
+  name        = "mongodb-sg"
   description = "Allow MongoDB from SpringBoot"
   vpc_id      = aws_vpc.main.id
 
@@ -72,6 +72,6 @@ resource "aws_security_group" "sg_docdb" {
   }
 
   tags = {
-    Name = "sg-docdb"
+    Name = "mongodb-sg"
   }
 }

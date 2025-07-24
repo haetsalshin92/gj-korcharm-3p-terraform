@@ -1,7 +1,7 @@
 # Launch Template
 resource "aws_launch_template" "spring_lt" {
   name_prefix   = "lt-spring-"
-  image_id      = "ami-03ff09c4b716e6425"
+  image_id      = "ami-00831e34ffc1077e4"
   instance_type = "t2.micro"
   key_name      = "gj-test2"
 
@@ -45,7 +45,7 @@ resource "aws_lb_target_group" "spring_tg" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path                = "/webhooks"  # Spring Boot에 맞게 조정 가능
+    path                = "/api/main" 
     protocol            = "HTTP"
     matcher             = "200-399"
     interval            = 30
@@ -74,7 +74,7 @@ resource "aws_lb" "spring_alb" {
 # Listener
 resource "aws_lb_listener" "spring_listener" {
   load_balancer_arn = aws_lb.spring_alb.arn
-  port              = 80
+  port              = 8080
   protocol          = "HTTP"
 
   default_action {
@@ -85,7 +85,7 @@ resource "aws_lb_listener" "spring_listener" {
 
 
 resource "aws_instance" "spring_2a" {
-  ami                         = "ami-03ff09c4b716e6425"
+  ami                         = "ami-00831e34ffc1077e4"
   instance_type               = "t2.micro"
   key_name                    = "gj-test2"
   subnet_id                   = aws_subnet.public_1a_spring.id
@@ -116,7 +116,7 @@ EOF
 }
 
 resource "aws_instance" "spring_2c" {
-  ami                         = "ami-03ff09c4b716e6425"
+  ami                         = "ami-00831e34ffc1077e4"
   instance_type               = "t2.micro"
   key_name                    = "gj-test2"
   subnet_id                   = aws_subnet.public_1c_spring.id
